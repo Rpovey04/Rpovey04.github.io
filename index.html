@@ -2,23 +2,30 @@
 <html>
 <link rel="stylesheet" href="style.css">
 
-<body>
-<h1>
-	Welcome to my website
-</h1>
-
-<p id="script1"></p>
-<script>
-document.getElementById("script1").innerHTML = 9 + 10;
-</script>
-
-<p id="script2"></p>
-<script>
-document.getElementById("script2").innerHTML = 11 + 10;
-</script>
-
-<h2>
-	<a href="https://rpovey.com/page1.html">Next page</a>
-</h2>
+<body style="background-color: rgb(15,16,35);"
+	  onLoad="startFunction()">
+	
+	<div style="width:100%; position: relative;">
+	<div id="leftAnimation" class=animationContainer style="left: 0px;"></div>
+	<div id="rightAnimation" class=animationContainer style="right: 0px;"></div>
+	</div>
+	
+	<script>
+		let count = 0;
+		var id = null;
+		function startFunction() {
+				var elem = document.getElementById("animationContainer");
+				id = setInterval(decreaseColor, 100);
+			function decreaseColor() {
+				if (255-count <= 100) {
+					clearInterval(id);
+				}
+				else {
+					count += 10;
+					elem.style.backgroundColor = "rgb("+(255-count)+","+0+","+0+")"
+				}
+			}
+		}
+	</script>
 </body>
 </html>
