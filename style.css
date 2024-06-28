@@ -4,3 +4,10 @@
 	width: 30%; 
 	position: absolute;
 }
+
+.floatingCharacter {
+	background-color: rgb(255, 255, 255);
+	width: 1%;
+	height: 1%;
+	position: absolute;
+}

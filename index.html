@@ -6,23 +6,47 @@
 	  onLoad="startFunction()">
 	
 	<div style="width:100%; position: relative;">
-	<div id="leftAnimation" class=animationContainer style="left: 0px;"></div>
-	<div id="rightAnimation" class=animationContainer style="right: 0px;"></div>
+	<div id="leftContainer" class=animationContainer style="left: 0px;"></div>
+	<div id="rightContainer" class=animationContainer style="right: 0px;"></div>
 	</div>
 	
 	<script>
 		let count = 0;
 		var id = null;
+		const leftChars = [];
+		const rightChars = [];
 		function startFunction() {
-				var elem = document.getElementById("animationContainer");
-				id = setInterval(decreaseColor, 100);
-			function decreaseColor() {
-				if (255-count <= 100) {
+				var leftContainer = document.getElementById("leftContainer");
+				var rightContainer = document.getElementById("rightContainer");
+				
+				// Creating 'pixel' elements here
+				var xoffset = 10;		// both % based
+				var yoffset = 10;
+				for (let i = 0; i < 15; i++) {
+					leftChars.push(document.createElement("div"));
+					leftChars[i].setAttribute('class', 'floatingCharacter');
+					leftChars[i].style.left = ((xoffset + Math.abs((Math.random() * 20) - 10)) % 100) + "%";
+					leftChars[i].style.top = (((yoffset + Math.abs((Math.random() * 20) - 10)) % 70) + 30) + "%";
+					leftContainer.appendChild(leftChars[i]);
+					
+					rightChars.push(document.createElement("div"));
+					rightChars[i].setAttribute('class', 'floatingCharacter');
+					rightChars[i].style.left = ((xoffset + Math.abs((Math.random() * 20) - 10)) % 100) + "%";
+					rightChars[i].style.top = (((yoffset + Math.abs((Math.random() * 20) - 10)) % 70) + 30) + "%";
+					rightContainer.appendChild(rightChars[i]);
+					
+					xoffset = (xoffset + (Math.random() * 30)) % 100;
+					yoffset = (yoffset + (Math.random() * 30)) % 100;
+				}
+				
+				id = setInterval(animateCharacters, 17);	// 60 FPS
+				
+			function animateCharacters() {
+				if (count >= 1000) {		// 'count' is number of frames passed
 					clearInterval(id);
 				}
 				else {
-					count += 10;
-					elem.style.backgroundColor = "rgb("+(255-count)+","+0+","+0+")"
+					count += 1;
 				}
 			}
 		}
