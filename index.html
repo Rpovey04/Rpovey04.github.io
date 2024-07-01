@@ -12,9 +12,16 @@
 	
 	<script>
 		let count = 0;
+		let movesToMake = 120;
+		let a = 320/101757;
 		var id = null;
 		const leftChars = [];
+		const leftInitialHeights = [];
 		const rightChars = [];
+		const rightInitialHeights = [];
+		var step = 0;
+		
+		
 		function startFunction() {
 				var leftContainer = document.getElementById("leftContainer");
 				var rightContainer = document.getElementById("rightContainer");
@@ -25,21 +32,21 @@
 				for (let i = 0; i < 15; i++) {
 					leftChars.push(document.createElement("div"));
 					leftChars[i].setAttribute('class', 'floatingCharacter');
-					leftChars[i].style.left = ((xoffset + Math.abs((Math.random() * 20) - 10)) % 100) + "%";
-					leftChars[i].style.top = (((yoffset + Math.abs((Math.random() * 20) - 10)) % 70) + 30) + "%";
+					leftChars[i].style.left = Math.floor((xoffset + Math.abs((Math.random() * 20) - 10)) % 100) + "%";
+					leftInitialHeights.push(Math.floor(((yoffset + Math.abs((Math.random() * 20) - 10)) % 70) + 15));
 					leftContainer.appendChild(leftChars[i]);
 					
 					rightChars.push(document.createElement("div"));
 					rightChars[i].setAttribute('class', 'floatingCharacter');
-					rightChars[i].style.left = ((xoffset + Math.abs((Math.random() * 20) - 10)) % 100) + "%";
-					rightChars[i].style.top = (((yoffset + Math.abs((Math.random() * 20) - 10)) % 70) + 30) + "%";
+					rightChars[i].style.left = Math.floor((xoffset + Math.abs((Math.random() * 20) - 10)) % 100) + "%";
+					rightInitialHeights.push(Math.floor(((yoffset + Math.abs((Math.random() * 20) - 10)) % 70) + 15));
 					rightContainer.appendChild(rightChars[i]);
 					
 					xoffset = (xoffset + (Math.random() * 30)) % 100;
 					yoffset = (yoffset + (Math.random() * 30)) % 100;
 				}
 				
-				id = setInterval(animateCharacters, 17);	// 60 FPS
+				id = setInterval(animateCharacters, 25);	// approx 45 FPS
 				
 			function animateCharacters() {
 				if (count >= 1000) {		// 'count' is number of frames passed
@@ -47,6 +54,23 @@
 				}
 				else {
 					count += 1;
+					if (movesToMake > 0) {
+						movesToMake -= 1;
+						step = a*-((movesToMake)**2) -0.252*-(movesToMake); 
+						for(let i = 0; i < 15; i++) {
+							leftChars[i].style.top = (leftInitialHeights[i]-step) + "%";
+							rightChars[i].style.top = (rightInitialHeights[i]-step) + "%";
+						}
+					}
+					else if (movesToMake == 0) {	// rounds numbers to avoid floating point inaccuracy
+						movesToMake -= 1;
+						for(let i = 0; i < 15; i++) {
+							leftChars[i].style.top = Math.ceil(Number(leftChars[i].style.top.slice(0, -1))) + "%";
+							rightChars[i].style.top = Math.ceil(Number(rightChars[i].style.top.slice(0, -1))) + "%";
+							
+							// leftChars[i].innerHTML = "(" + leftChars[i].style.left + "," + leftChars[i].style.top + ")";
+						}
+					}
 				}
 			}
 		}
