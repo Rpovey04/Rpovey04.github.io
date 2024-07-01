@@ -6,7 +6,8 @@
 }
 
 .floatingCharacter {
-	background-color: rgb(0, 255, 0);
+	font-family: Consolas,monaco,monospace; /*Standard vs font, I like how it looks but might change*/
+	color: rgb(0, 255, 0);
 	width: 1%;
 	height: 1%;
 	position: absolute;

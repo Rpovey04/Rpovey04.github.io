@@ -13,14 +13,17 @@
 	<script>
 		let count = 0;
 		let movesToMake = 120;
+		let numChars = 20;
 		let a = 320/101757;
 		var id = null;
+		
+		const displayCharacters = [";", "&", "/", "*", "(", ")"];
+		
 		const leftChars = [];
 		const leftInitialHeights = [];
 		const rightChars = [];
 		const rightInitialHeights = [];
 		var step = 0;
-		
 		
 		function startFunction() {
 				var leftContainer = document.getElementById("leftContainer");
@@ -29,15 +32,19 @@
 				// Creating 'pixel' elements here
 				var xoffset = 10;		// both % based
 				var yoffset = 10;
-				for (let i = 0; i < 15; i++) {
+				for (let i = 0; i < numChars; i++) {
 					leftChars.push(document.createElement("div"));
 					leftChars[i].setAttribute('class', 'floatingCharacter');
+					leftChars[i].innerHTML = displayCharacters[Math.floor(Math.random() * 6)];
+					
 					leftChars[i].style.left = Math.floor((xoffset + Math.abs((Math.random() * 20) - 10)) % 100) + "%";
 					leftInitialHeights.push(Math.floor(((yoffset + Math.abs((Math.random() * 20) - 10)) % 70) + 15));
 					leftContainer.appendChild(leftChars[i]);
 					
 					rightChars.push(document.createElement("div"));
 					rightChars[i].setAttribute('class', 'floatingCharacter');
+					rightChars[i].innerHTML = displayCharacters[Math.floor(Math.random() * 6)];
+					
 					rightChars[i].style.left = Math.floor((xoffset + Math.abs((Math.random() * 20) - 10)) % 100) + "%";
 					rightInitialHeights.push(Math.floor(((yoffset + Math.abs((Math.random() * 20) - 10)) % 70) + 15));
 					rightContainer.appendChild(rightChars[i]);
@@ -57,14 +64,14 @@
 					if (movesToMake > 0) {
 						movesToMake -= 1;
 						step = a*-((movesToMake)**2) -0.252*-(movesToMake); 
-						for(let i = 0; i < 15; i++) {
+						for(let i = 0; i < numChars; i++) {
 							leftChars[i].style.top = (leftInitialHeights[i]-step) + "%";
 							rightChars[i].style.top = (rightInitialHeights[i]-step) + "%";
 						}
 					}
 					else if (movesToMake == 0) {	// rounds numbers to avoid floating point inaccuracy
 						movesToMake -= 1;
-						for(let i = 0; i < 15; i++) {
+						for(let i = 0; i < numChars; i++) {
 							leftChars[i].style.top = Math.ceil(Number(leftChars[i].style.top.slice(0, -1))) + "%";
 							rightChars[i].style.top = Math.ceil(Number(rightChars[i].style.top.slice(0, -1))) + "%";
 							
