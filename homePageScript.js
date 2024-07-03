@@ -79,6 +79,7 @@ let dead = 1;		// initially dead
 let direction = [];		// can be [1, 0], [-1, 0], [0, 1], [0, -1]
 let snakeBody = [];		// array of body coordinates
 let snakeBodyHTML = [];
+let choice = null;
 		
 function initSnake() {
 	for (let i = 0; i < snakeBodyHTML.length; i++) {snakeBodyHTML[i].remove();}
@@ -153,6 +154,8 @@ function checkAte() {
 }
 
 function checkDead() {
+	if (snakeBody[0][0] <= 0 || snakeBody[0][0] >= 100 || snakeBody[0][1] >= 100 || snakeBody[0][1] <= 0) {dead = 1;}
+	
 	detected = 0;
 	for (let i = 1; i < snakeBody.length && detected == 0; i++) {
 		if (snakeBody[0][0] ==  snakeBody[i][0] && snakeBody[0][1] == snakeBody[i][1]){
@@ -161,21 +164,42 @@ function checkDead() {
 		}
 	}
 }
-		
+
+function makeMove() {		// random for now, will eventually use forward prop on pretrained weights
+	choice = Math.floor(Math.random() * 3);
+	if (direction[0] == 1 && direction[1] == 0) {
+		direction = [[1, 0], [0, 1], [0, -1]][choice];
+		return;
+	}
+	if (direction[0] == -1 && direction[1] == 0) {
+		direction = [[-1, 0], [0, 1], [0, -1]][choice];
+		return;
+	}
+	if (direction[0] == 0 && direction[1] == 1) {
+		direction = [[-1, 0], [1, 0], [0, 1]][choice];
+		return;
+	}
+	if (direction[0] == 0 && direction[1] == -1){
+		direction = [[-1, 0], [1, 0], [0, -1]][choice];
+		return;
+	}
+}
+	
 function playSnake() {			// snake main loop
 	count += 1;
 	if (dead == 1) {initSnake();}
-	
-	
+
 	moveSnake();
 	checkAte();
 	checkDead();
+	
+	makeMove();		// comment out for control
 }
 		
-// temporary controls
+/* temporary controls
 document.addEventListener("keydown", (event) => {
 	if (event.key == 'w') {
-		if (direction != [0, 1]) {direction = [0, -1];}
+		if (!(direction[0] == 0 && direction[1] == 1)) {direction = [0, -1];}
 	}
 	else if (event.key == 'a') {
 		if (direction != [1, 0]) {direction = [-1, 0];}
@@ -187,3 +211,4 @@ document.addEventListener("keydown", (event) => {
 		if (direction != [-1, 0]) {direction = [1, 0];}
 	}
 });
+*/
