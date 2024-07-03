@@ -1,5 +1,4 @@
 .animationContainer {
-	
 	height: 100vh; 
 	width: 30%; 
 	position: absolute;
@@ -8,6 +7,14 @@
 .floatingCharacter {
 	font-family: Consolas,monaco,monospace; /*Standard vs font, I like how it looks but might change*/
 	color: rgb(0, 255, 0);
+	width: 1%;
+	height: 1%;
+	position: absolute;
+}
+
+.snakeBody {
+	font-family: Consolas,monaco,monospace;
+	color: rgb(255, 0, 0);
 	width: 1%;
 	height: 1%;
 	position: absolute;
