@@ -1,7 +1,29 @@
+@font-face {
+    font-family: 'league_spartanbold';
+    src: url('leaguespartan-bold-webfont.woff2') format('woff2'),
+         url('leaguespartan-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 .animationContainer {
 	height: 100vh; 
 	width: 30%; 
 	position: absolute;
+}
+
+.centerColumn {
+	height: 100vh;
+	width: 40%;
+	position: absolute;
+}
+
+.centerText {
+	 width: 100%; 
+	 margin: auto; 
+	 text-align: center; 
+	 font-family: league_spartanbold;
 }
 
 .floatingCharacter {
