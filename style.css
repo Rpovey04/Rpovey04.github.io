@@ -19,25 +19,47 @@
 	position: absolute;
 }
 
-.centerText {
+.textBox {
+	width: 100%;
+	position: absolute;
+	margin: auto;
+}
+
+h1, h2, h3 {
 	 width: 100%; 
 	 margin: auto; 
 	 text-align: center; 
 	 font-family: league_spartanbold;
+	 color: rgb(0, 255, 0);
+	 position: relative;
+}
+
+h1 {
+	text-decoration: underline;
+	font-size: 300%;
+}
+
+h2 {
+	font-size: 150%;
+}
+
+h3 {
+	font-style: italic;
+	font-size: 100%;
+}
+
+
+.floatingCharacter, .snakeBody {
+	font-family: Consolas,monaco,monospace; /*Standard vs font, I like how it looks but might change*/
+	width: 1%;
+	height: 1%;
+	position: absolute;
 }
 
 .floatingCharacter {
-	font-family: Consolas,monaco,monospace; /*Standard vs font, I like how it looks but might change*/
 	color: rgb(0, 255, 0);
-	width: 1%;
-	height: 1%;
-	position: absolute;
 }
 
 .snakeBody {
-	font-family: Consolas,monaco,monospace;
 	color: rgb(255, 0, 0);
-	width: 1%;
-	height: 1%;
-	position: absolute;
 }
