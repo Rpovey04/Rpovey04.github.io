@@ -25,7 +25,7 @@
 	margin: auto;
 }
 
-h1, h2, h3 {
+.head1, .head2, .head3 {
 	 width: 100%; 
 	 margin: auto; 
 	 text-align: center; 
@@ -34,16 +34,16 @@ h1, h2, h3 {
 	 position: relative;
 }
 
-h1 {
+.head1 {
 	text-decoration: underline;
 	font-size: 300%;
 }
 
-h2 {
+.head2 {
 	font-size: 150%;
 }
 
-h3 {
+.head3 {
 	font-style: italic;
 	font-size: 100%;
 }
