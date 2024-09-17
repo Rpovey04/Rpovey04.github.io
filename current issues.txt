@@ -1,3 +1,0 @@
-need to align individual divs WITHIN text boxes
-snake doesn't fucking work now for some reason
-two side by side divs inside contact footer for phone and email

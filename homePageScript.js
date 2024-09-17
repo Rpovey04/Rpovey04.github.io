@@ -26,7 +26,7 @@ function startFunction() {	// main
 		leftChars[i].innerHTML = displayCharacters[Math.floor(Math.random() * 6)];
 		leftInitialHeights.push(Math.floor(((yoffset + Math.abs((Math.random() * 20) - 10)) % 70) + 15));
 		leftChars[i].style.left = Math.floor((xoffset + Math.abs((Math.random() * 20) - 10)) % 100) + "%";
-		leftChars[i].style.top = (leftInitialHeights[i]+15) + "%";
+		leftChars[i].style.top = (leftInitialHeights[i]) + "%";
 		leftContainer.appendChild(leftChars[i]);
 					
 		rightChars.push(document.createElement("div"));
@@ -34,7 +34,7 @@ function startFunction() {	// main
 		rightChars[i].innerHTML = displayCharacters[Math.floor(Math.random() * 6)];
 		rightInitialHeights.push(Math.floor(((yoffset + Math.abs((Math.random() * 20) - 10)) % 70) + 15));
 		rightChars[i].style.left = Math.floor((xoffset + Math.abs((Math.random() * 20) - 10)) % 100) + "%";
-		rightChars[i].style.top = (rightInitialHeights[i]+15) + "%";
+		rightChars[i].style.top = (rightInitialHeights[i]) + "%";
 		rightContainer.appendChild(rightChars[i]);
 					
 		xoffset = (xoffset + (Math.random() * 30)) % 100;
