@@ -44,7 +44,7 @@
 	font-family: Consolas,monaco,monospace; /*Standard vs font, I like how it looks but might change*/
 	width: 1%;
 	height: 1%;
-	position: relative;
+	position: absolute;
 }
 
 .floatingCharacter {
