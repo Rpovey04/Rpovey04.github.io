@@ -17,7 +17,7 @@ class Characters {
   static a = 320/101757;	// magic number
   nextAnimatedHeight(i) { 
 	  let y = this.charArray[i][1];
-	  return y - (Characters.a*-((this.counter)**2) -0.252*-(this.counter));
+	  return y - (Characters.a*-((120-this.counter)**2) -0.252*-(120-this.counter));
   }
   
   constructor(n) {
@@ -38,7 +38,15 @@ var rightCharacters;
 
 
 var floatID = null;
+var snakeID = null;
 
+function translateToLeft(x) { // left characters on the left 1/3 of the screen with slight move to the right
+	return x*0.3 + 3
+}
+ 
+function translateToRight(x) { // right characters on the right 1/3 of the screen with slight move to the left
+	return x*0.3 + 67
+}
 
 function startFunction() {	// main
 	var leftContainer = document.getElementById("leftContainer");
@@ -51,7 +59,7 @@ function startFunction() {	// main
 		leftHTMLCharacters.push(document.createElement("div"));
 		leftHTMLCharacters[i].setAttribute('class', 'floatingCharacter');
 		leftHTMLCharacters[i].innerHTML = c1;
-		leftHTMLCharacters[i].style.left = Math.floor(x1*0.3 + 3) + "%";		// left characters on the left 1/3 of the screen with slight move to the right
+		leftHTMLCharacters[i].style.left = translateToLeft(x1) + "%";		
 		leftHTMLCharacters[i].style.top = y1 + "%";
 		leftContainer.appendChild(leftHTMLCharacters[i]);
 		
@@ -59,7 +67,7 @@ function startFunction() {	// main
 		rightHTMLCharacters.push(document.createElement("div"));
 		rightHTMLCharacters[i].setAttribute('class', 'floatingCharacter');
 		rightHTMLCharacters[i].innerHTML = c2;
-		rightHTMLCharacters[i].style.left = Math.floor(x2*0.3 + 67) + "%";		// right characters on the right 1/3 of the screen with slight move to the left
+		rightHTMLCharacters[i].style.left = translateToRight(x2) + "%";		
 		rightHTMLCharacters[i].style.top = y2 + "%";
 		rightContainer.appendChild(rightHTMLCharacters[i]);
 		
@@ -81,11 +89,107 @@ function animateCharacters() {
 	else {
 		for (let i = 0; i < numberOfCharacters; i++) {
 			[, y1, ] = leftCharacters.charArray[i];
-			leftHTMLCharacters[i].style.top = y1;
+			leftHTMLCharacters[i].style.top = y1 + "%";
+			//leftHTMLCharacters[i].innerHTML = "(" + leftCharacters.charArray[i][0] + ", " +  y1+ ")";
 			
 			[, y2, ] = rightCharacters.charArray[i];
-			rightHTMLCharacters[i].style.top = y2;
+			rightHTMLCharacters[i].style.top = y2 + "%";
 		}
 		clearInterval(floatID);
+		snakeID = setInterval(snakeMain, 200);		// 5 FPS
 	}
+}
+
+//SNAKE
+var snakeBody = [];
+var snakeHTML = [];
+var direction = [0, -1];
+var died = 1;
+var leftBorder = 101;
+var rightBorder = -1;
+var topBorder = 101;
+var bottomBorder = -1;
+
+function findBorders() {
+	for (let i = 0; i < numberOfCharacters; i++) {
+		[x, y, c] = leftCharacters.charArray[i];
+		if (x < leftBorder) {leftBorder = x;}
+		if (x > rightBorder) {rightBorder = x;}
+		if (y < topBorder) {topBorder = y;}
+		if (y > bottomBorder) {bottomBorder = y;}
+	}
+}
+
+function initSnake(){
+	if (leftBorder == -1 || rightBorder == 101 || topBorder == 101 || bottomBorder == -1) {findBorders();}
+	
+	if (died){
+		for (let i = 0; i < snakeHTML.length; i++) {snakeHTML[i].remove();}
+		snakeBody = [];
+		snakeHTML = [];
+		died = 0;
+	}
+	
+	
+	let initialPos = [Math.floor(leftBorder + (Math.random() * (rightBorder-leftBorder))), Math.floor(topBorder + (Math.random() * (bottomBorder-topBorder)))];		// first for head of the snake
+	direction = [0, -1];
+
+	snakeBody.push(initialPos);
+	snakeBody.push([initialPos[0] + direction[0], initialPos[1] + direction[1]]);
+	
+	for (let i = 0; i < snakeBody.length; i++) {
+		[x, y] = snakeBody[i];
+		snakeHTML.push(document.createElement("div"));
+		snakeHTML[i].setAttribute('class', 'snakeBody');
+		snakeHTML[i].style.left = translateToLeft(x) + "%";
+		snakeHTML[i].style.top = y + "%";
+		snakeHTML[i].innerHTML = '*';
+		leftContainer.appendChild(snakeHTML[i]);
+	}
+}
+
+function moveSnake() {
+	snakeBody.unshift([snakeBody[0][0] + direction[0], snakeBody[0][1] + direction[1]]);
+	snakeBody.pop();
+	
+	let tmp = snakeHTML.pop();
+	tmp.style.left = translateToLeft(snakeBody[0][0]) + "%";
+	tmp.style.top = snakeBody[0][1] + "%";
+	//tmp.innerHTML = "(" + snakeBody[0][0] + ", " + snakeBody[0][1] + ")";
+	snakeHTML.unshift(tmp);
+}
+
+function changeSnakeDirection() {
+	[x, y] = direction;
+	choice = Math.floor(Math.random()*2);
+	if (x == 0) {direction = [[1, 0], [-1, 0]][choice];}
+	else {direction = [[0, 1], [0, -1]][choice];}
+}
+
+function checkSnakeDead() {
+	[x, y] = snakeBody[0];
+	// bounds
+	if (x < leftBorder || x > rightBorder || y < topBorder || y > bottomBorder) {return 1;}
+	
+	// touching body
+	
+	return 0;
+}
+
+function checkSnakeAte() {
+	
+}
+
+// main snake function
+function snakeMain() {
+	if (died) {initSnake();}
+	
+	
+	// weird algorithm for moving the snake
+	if (Math.floor(Math.random() * 3) == 1) {changeSnakeDirection();}
+ 	moveSnake();
+	
+	// checking status
+	died = checkSnakeDead();
+	checkSnakeAte();
 }
