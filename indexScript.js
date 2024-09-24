@@ -105,6 +105,7 @@ var snakeBody = [];
 var snakeHTML = [];
 var direction = [0, -1];
 var died = 1;
+var snakeAte = 0;
 var leftBorder = 101;
 var rightBorder = -1;
 var topBorder = 101;
@@ -160,10 +161,27 @@ function moveSnake() {
 }
 
 function changeSnakeDirection() {
+	/*
 	[x, y] = direction;
 	choice = Math.floor(Math.random()*2);
 	if (x == 0) {direction = [[1, 0], [-1, 0]][choice];}
 	else {direction = [[0, 1], [0, -1]][choice];}
+	*/
+	
+	document.addEventListener("keydown", (event) => {
+	if (event.key == 'w') {
+		if (!(direction[0] == 0 && direction[1] == 1)) {direction = [0, -1];}
+	}
+	else if (event.key == 'a') {
+		if (direction != [1, 0]) {direction = [-1, 0];}
+	}
+	else if (event.key == 's') {
+		if (direction != [0, -1]) {direction = [0, 1];}
+	}
+	else if (event.key == 'd') {
+		if (direction != [-1, 0]) {direction = [1, 0];}
+	}
+});
 }
 
 function checkSnakeDead() {
@@ -177,7 +195,16 @@ function checkSnakeDead() {
 }
 
 function checkSnakeAte() {
-	
+	for (let i = 0; i < numberOfCharacters; i++) {
+		[x, y, c] = leftCharacters.charArray[i];
+		if (x == snakeBody[0][0] && y == snakeBody[0][1]) {
+			leftCharacters.charArray[i] = [Math.floor(leftBorder + (Math.random() * (rightBorder-leftBorder))), Math.floor(topBorder + (Math.random() * (bottomBorder-topBorder))), c];
+			leftHTMLCharacters[i].style.left = translateToLeft(leftCharacters.charArray[i][0]) + "%";
+			leftHTMLCharacters[i].style.top = leftCharacters.charArray[i][1] + "%";
+			return 1;
+		}
+	}
+	return 0;
 }
 
 // main snake function
@@ -191,5 +218,5 @@ function snakeMain() {
 	
 	// checking status
 	died = checkSnakeDead();
-	checkSnakeAte();
+	snakeAte = checkSnakeAte();
 }
