@@ -151,23 +151,32 @@ function initSnake(){
 
 function moveSnake() {
 	snakeBody.unshift([snakeBody[0][0] + direction[0], snakeBody[0][1] + direction[1]]);
-	snakeBody.pop();
-	
-	let tmp = snakeHTML.pop();
+	let tmp = null;
+	if (snakeAte == 1) {
+		tmp = document.createElement("div");
+		tmp.innerHTML = '*';
+		tmp.setAttribute('class', 'snakeBody');
+		leftContainer.appendChild(tmp);
+		snakeAte = 0;
+	}
+	else {
+		snakeBody.pop();
+		tmp = snakeHTML.pop();
+	}
 	tmp.style.left = translateToLeft(snakeBody[0][0]) + "%";
 	tmp.style.top = snakeBody[0][1] + "%";
 	//tmp.innerHTML = "(" + snakeBody[0][0] + ", " + snakeBody[0][1] + ")";
+	
 	snakeHTML.unshift(tmp);
 }
 
 function changeSnakeDirection() {
-	/*
 	[x, y] = direction;
 	choice = Math.floor(Math.random()*2);
 	if (x == 0) {direction = [[1, 0], [-1, 0]][choice];}
 	else {direction = [[0, 1], [0, -1]][choice];}
-	*/
 	
+	/*		Uncomment for manual controls
 	document.addEventListener("keydown", (event) => {
 	if (event.key == 'w') {
 		if (!(direction[0] == 0 && direction[1] == 1)) {direction = [0, -1];}
@@ -181,7 +190,8 @@ function changeSnakeDirection() {
 	else if (event.key == 'd') {
 		if (direction != [-1, 0]) {direction = [1, 0];}
 	}
-});
+	});
+	*/
 }
 
 function checkSnakeDead() {
@@ -190,6 +200,9 @@ function checkSnakeDead() {
 	if (x < leftBorder || x > rightBorder || y < topBorder || y > bottomBorder) {return 1;}
 	
 	// touching body
+	for (let i = 1; i < snakeBody.length-1; i++) {
+		if (x == snakeBody[i][0] && y == snakeBody[i][1]) {return 1;}
+	}
 	
 	return 0;
 }
@@ -211,10 +224,9 @@ function checkSnakeAte() {
 function snakeMain() {
 	if (died) {initSnake();}
 	
-	
 	// weird algorithm for moving the snake
 	if (Math.floor(Math.random() * 3) == 1) {changeSnakeDirection();}
- 	moveSnake();
+	moveSnake();
 	
 	// checking status
 	died = checkSnakeDead();
