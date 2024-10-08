@@ -17,7 +17,7 @@
 	margin: auto;
 }
 
-.head1, .head2, .head3 {
+.head1, .head2, .head3, .subhead1 {
 	 margin: auto; 
 	 text-align: center; 
 	 font-family: league_spartanbold;
@@ -37,6 +37,11 @@
 .head3 {
 	font-style: italic;
 	font-size: 100%;
+}
+
+.subhead1 {
+	font-style: italic;
+	font-size: 70%;
 }
 
 
